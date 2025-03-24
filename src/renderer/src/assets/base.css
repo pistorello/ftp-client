@@ -1,0 +1,28 @@
+:root {
+  --pri: #353941;
+  --sec: #26282B;
+  --h_pri: #5F85DB;
+  --h_sec: #90B8F8;
+  --font: #e0e3e7;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  color: var(--font);
+
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    sans-serif;
+}
