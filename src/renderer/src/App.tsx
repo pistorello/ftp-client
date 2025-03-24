@@ -3,10 +3,11 @@ import { useState } from 'react'
 import NodeTree, { Node } from './components/NodeTree'
 
 function App(): JSX.Element {
-  const [host, setHost] = useState<string>('')
-  const [user, setUser] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
+  const [host, setHost] = useState<string>('ftp.pistorello.com')
+  const [user, setUser] = useState<string>('u506320054')
+  const [password, setPassword] = useState<string>('Leozinhoputodavidanessamerda14@')
   const [files, setFiles] = useState<FileInfo[]>([])
+  const [path, setPath] = useState<string>('')
 
   const ipcStartClient = async (): Promise<void> =>
     await window.ftp.startClient(host, user, password)
@@ -14,19 +15,17 @@ function App(): JSX.Element {
   const ipcStopClient = async (): Promise<void> => await window.ftp.stopClient()
 
   const ipcListFiles = async (): Promise<void> => {
-    const files = await window.ftp.listFiles()
+    const files = await window.ftp.listFiles(path)
+    // files.map((file) => {
+    //   console.log(file)
+    // })
     setFiles(files)
   }
 
-  const test: Node = (): void => {
-    files.map((file) => {
-      const node: Node = {
-        name: file.name,
-        isFolder: file.isFile
-      }
-      return node
-    })
-  }
+  const nodes: Node[] = files.map((file) => ({
+    name: file.name,
+    type: file.type
+  }))
 
   return (
     <div className="env">
@@ -71,7 +70,7 @@ function App(): JSX.Element {
         </div>
       </header>
       <main>
-        <NodeTree node={test} />
+        <NodeTree nodes={nodes} />
       </main>
     </div>
   )

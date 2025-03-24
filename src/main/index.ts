@@ -59,8 +59,8 @@ app.whenReady().then(() => {
 
   ipcMain.on('stop-ftp', async () => await stopClient())
 
-  ipcMain.handle('list-files', async () => {
-    return await listFiles()
+  ipcMain.handle('list-files', async (_event, path: string) => {
+    return await listFiles(path)
   })
 
   createWindow()

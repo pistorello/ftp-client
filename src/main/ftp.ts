@@ -61,6 +61,6 @@ async function keepAlive(): Promise<void> {
   }, 10000)
 }
 
-export async function listFiles(): Promise<FileInfo[]> {
-  return await client.list()
+export async function listFiles(path: string): Promise<FileInfo[]> {
+  return await client.list(path)
 }

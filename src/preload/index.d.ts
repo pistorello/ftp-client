@@ -4,7 +4,7 @@ import { FileInfo } from 'basic-ftp'
 interface ftp {
   startClient: (host: string, user: string, password: string) => void
   stopClient: () => void
-  listFiles: () => FileInfo[]
+  listFiles: (path: string) => FileInfo[]
 }
 
 declare global {
