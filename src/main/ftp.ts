@@ -62,5 +62,15 @@ async function keepAlive(): Promise<void> {
 }
 
 export async function listFiles(path: string): Promise<FileInfo[]> {
-  return await client.list(path)
+  const file_list = await client.list(path)
+
+  const sorted = file_list.sort((a, b) => {
+    if (a.type === 2 && b.type !== 2) return -1
+    if (a.type !== 2 && b.type === 2) return 1
+    return 0
+  })
+
+  // console.log(sorted[0])
+
+  return sorted
 }

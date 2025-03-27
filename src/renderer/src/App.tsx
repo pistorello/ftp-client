@@ -1,31 +1,28 @@
 import { FileInfo } from 'basic-ftp'
 import { useState } from 'react'
 import NodeTree, { Node } from './components/NodeTree'
+import fileToNode from './utils/functions'
 
 function App(): JSX.Element {
   const [host, setHost] = useState<string>('ftp.pistorello.com')
   const [user, setUser] = useState<string>('u506320054')
   const [password, setPassword] = useState<string>('Leozinhoputodavidanessamerda14@')
   const [files, setFiles] = useState<FileInfo[]>([])
-  const [path, setPath] = useState<string>('')
 
-  const ipcStartClient = async (): Promise<void> =>
+  const ipcStartClient = async (): Promise<void> => {
     await window.ftp.startClient(host, user, password)
+  }
 
-  const ipcStopClient = async (): Promise<void> => await window.ftp.stopClient()
+  const ipcStopClient = async (): Promise<void> => {
+    await window.ftp.stopClient()
+  }
 
   const ipcListFiles = async (): Promise<void> => {
-    const files = await window.ftp.listFiles(path)
-    // files.map((file) => {
-    //   console.log(file)
-    // })
+    const files = await window.ftp.listFiles()
     setFiles(files)
   }
 
-  const nodes: Node[] = files.map((file) => ({
-    name: file.name,
-    type: file.type
-  }))
+  const nodes: Node[] = fileToNode(files)
 
   return (
     <div className="env">

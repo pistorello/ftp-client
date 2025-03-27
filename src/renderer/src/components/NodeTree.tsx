@@ -1,3 +1,4 @@
+import fileToNode from '../utils/functions'
 import { ChevronDown, ChevronRight, File, Folder } from 'lucide-react'
 import React, { useState } from 'react'
 
@@ -20,8 +21,14 @@ const NodeTree: React.FC<{ nodes: Node[] }> = ({ nodes }) => {
 const NodeItem: React.FC<{ node: Node }> = ({ node }) => {
   const [expanded, setExpanded] = useState<boolean>(false)
 
-  const handleExpand = (): void => {
+  const handleExpand = async (): Promise<void> => {
     if (node.type === 2) {
+      if (!expanded) {
+        const files = await window.ftp.listFiles(node.name)
+
+        node.children = fileToNode(files)
+      }
+
       setExpanded(!expanded)
     }
   }
@@ -34,11 +41,11 @@ const NodeItem: React.FC<{ node: Node }> = ({ node }) => {
 
         {node.type === 2 ? <Folder color="#ffffff" /> : <File color="#ffffff" />}
 
-        {`${node.name} | ${node.type}`}
+        {`${node.name}`}
       </div>
 
-      {expanded && node.children && (
-        <div className="children">
+      {expanded && node.children && node.type === 2 && (
+        <div>
           {node.children.map((child, index) => (
             <NodeItem key={index} node={child} />
           ))}

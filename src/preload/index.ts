@@ -9,8 +9,8 @@ const ftp = {
 
   stopClient: async (): Promise<void> => await ipcRenderer.send('stop-ftp'),
 
-  listFiles: async (): Promise<FileInfo[]> => {
-    return await ipcRenderer.invoke('list-files')
+  listFiles: async (path): Promise<FileInfo[]> => {
+    return await ipcRenderer.invoke('list-files', path)
   }
 }
 
